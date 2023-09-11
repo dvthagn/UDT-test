@@ -1,8 +1,9 @@
-const express = require("express");
-const React = require("react");
-const ReactDOMServer = require("react-dom/server");
+import express from "express";
+import React from "react";
+import ReactDOMServer from "react-dom-server";
+
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 import App from "../App";
 
