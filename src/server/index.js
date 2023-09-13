@@ -5,7 +5,7 @@ import ReactDOMServer from "react-dom/server";
 const app = express();
 const port = 3000;
 
-import App from "../App";
+import App from "../App.js";
 
 app.use(express.static("dist"));
 

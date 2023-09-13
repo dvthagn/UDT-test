@@ -1,13 +1,12 @@
-const path = require("path");
-const webpack = require("webpack");
-const nodeExternals = require("webpack-node-externals");
+import { resolve } from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import nodeExternals from "webpack-node-externals";
 
-const clientConfig = {
-  entry: "./src/client/index.js",
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
-  },
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const commonConfig = {
   module: {
     rules: [
       {
@@ -16,30 +15,36 @@ const clientConfig = {
         use: {
           loader: "babel-loader",
         },
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
       },
     ],
+  },
+};
+
+const clientConfig = {
+  ...commonConfig,
+  entry: "./src/client/index.js",
+  output: {
+    path: resolve(__dirname, "dist"),
+    filename: "bundle.js",
   },
 };
 
 const serverConfig = {
+  ...commonConfig,
   entry: "./src/server/index.js",
   target: "node",
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "server.js",
+    path: resolve(__dirname, "dist"),
+    filename: "server.cjs",
   },
   externals: [nodeExternals()],
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-        },
-      },
-    ],
-  },
 };
 
-module.exports = [clientConfig, serverConfig];
+export default [clientConfig, serverConfig];
