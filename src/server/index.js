@@ -6,10 +6,11 @@ const app = express();
 const port = 3000;
 
 import App from "../App.js";
+import History from "../components/History.js";
 
 app.use(express.static("dist"));
 
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
   const html = ReactDOMServer.renderToString(<App />);
   res.send(`
     <!DOCTYPE html>
@@ -23,6 +24,13 @@ app.get("*", (req, res) => {
         <script src="/bundle.js"></script>
       </body>
     </html>
+  `);
+});
+
+app.get("/history", (req, res) => {
+  const html = ReactDOMServer.renderToString(<History />);
+  res.send(`
+  ${html}
   `);
 });
 
